@@ -11,25 +11,24 @@ import os
 import shutil
 
 
-files = os.listdir("output1")
+files = os.listdir("output2")
 
 
 totalTime = []
 checkTime = []
-jsonTime = []
 layerTime = []
-checksumTime = []
 
 for file in files :
-    f = open("output1/"+file)
+    if file == ".DS_Store" :
+        continue
+    #print file
+    f = open("output2/"+file)
     line = f.readline().rstrip("\n")
     layerNumber = int(line[16:])
     lines = f.readlines()
-    totalTime.append(lines[0])
-    checkTime.append(lines[1])
-    jsonTime = jsonTime + lines[ 4 : ( 4 + layerNumber ) ]
-    layerTime = layerTime + lines[ ( 6 + layerNumber ) : ( 6 + layerNumber*2 ) ]
-    checksumTime = checksumTime + lines[ ( 8 + layerNumber*2 ) : ( 8 + layerNumber*3 ) ]
+    totalTime.append(lines[2])
+    checkTime = checkTime + lines[ 5 : ( 5 + layerNumber ) ]
+    layerTime = layerTime + lines[ ( 7 + layerNumber ) : ( 7 + layerNumber*2 ) ]
     f.close()
     
 def writeListToFile(listname, filename) :
@@ -39,16 +38,14 @@ def writeListToFile(listname, filename) :
     f.close()
     return
 
-if os.path.exists("output2"):
-    shutil.rmtree("output2")
+if os.path.exists("output3"):
+    shutil.rmtree("output3")
 
-os.mkdir("output2")
+os.mkdir("output3")
 
-writeListToFile(totalTime, "output2/totalTime.txt")
-writeListToFile(checkTime, "output2/checkTime.txt")      
-writeListToFile(jsonTime, "output2/jsonTime.txt")    
-writeListToFile(layerTime, "output2/layerTime.txt")        
-writeListToFile(checksumTime, "output2/checksumTime.txt")
+writeListToFile(totalTime, "output3/totalTime.txt")
+writeListToFile(checkTime, "output3/checkTime.txt")         
+writeListToFile(layerTime, "output3/layerTime.txt")        
 
 
 

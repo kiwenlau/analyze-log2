@@ -13,7 +13,7 @@ def timeToSeconds(timeStr) :
 	second=float(timeStr[17:29])
 	return day*86400+hour*3600+minute*60+second;
 
-def calculatePushTime(timeString = [], *args) :
+def calculatePushTime(timeString = [], headIndex = [], *args) :
     # transfer timestamp to second
     timeSecond = []
     for k, v in enumerate(timeString):
@@ -54,6 +54,11 @@ timeString = []
 headIndex = []
 i=0
 
+# skip the first push log
+line=f.readline()
+while line != "\n" :
+    line=f.readline()
+
 line=f.readline()
 while line :
     while line != "\n" :
@@ -65,7 +70,7 @@ while line :
 
         line=f.readline()
         i=i+1
-    calculatePushTime(timeString)
+    calculatePushTime(timeString, headIndex)
     timeString = []
     headIndex = []
     i=0
